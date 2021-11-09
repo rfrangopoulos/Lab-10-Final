@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+html {
+    background-color: rgb(255, 200, 175);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table {
+    background-color: bisque;
+    margin: 100px auto;
+    border-collapse: collapse;
+    border: 2px solid rgb(175, 255, 255);
+}
+
+th, tr, td {
+    border: 2px solid rgb(175, 255, 255);
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+}
+
+a, h1 {
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+a:visited {
+    color: black;
+}

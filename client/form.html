@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add to database</title>
+        <link href="css/restform.css" rel="stylesheet"/>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/client/js/form.js" async></script>
+    </head>
+
+    <body>
+        <form id="dbAdd">
+
+            <div class="formRow">
+                <label for="restName">Restaurant Name: </label>
+                <input type="text" id="restName" name="restName" required/>
+            </div>
+
+            <div class="formRow">
+                <label for="restAddress">Restaurant Address: </label>
+                <input type="text" id="restAddress" name="restAddress" required/>
+            </div>
+            
+            <div class="formRow">
+                <label for="restCity">Restaurant City: </label>
+                <input type="text" id="restCity" name="restCity" required/>
+            </div>
+
+            <div class="formRow">
+                <label for="restZip">Restaurant Zip Code: </label>
+                <input type="text" id="restZip" name="restZip" required/>
+            </div>
+
+            <div class="formRow">
+                <label for="restPhone">Restaurant Phone Number: </label>
+                <input type="text" id="restPhone" name="restPhone" required/>
+            </div>
+
+            <div class="formRow">
+                <label for="restFoodType">Restaurant Food Type: </label>
+                <select id="restFoodType" name="restFoodType" required>
+                    <option value="Bar Style">Bar Style</option>
+                    <option value="Mexican">Mexican Style</option>
+                    <option value="Hibachi">Hibachi</option>
+                    <option value="Seafood">Seafood</option>
+                    <option value="American Grill">American Grill</option>
+                    <option value="Cajun">Cajun Style</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="formRow">
+                <label for="restAvgCustRating">Average Customer Rating: </label>
+                <input type="number" id="restAvgCustRating" name="restAvgCustRating" value="2.5" min="0" max="5" step="0.1" required/>
+            </div>    
+
+            <div class="formRow">
+                <button id="submit">Add Record</button>
+            </div>
+        </form>
+
+        <a href="http://localhost:5000/table"><h1>Go to database viewer</h1></a>
+
+    </body>
+</html>
