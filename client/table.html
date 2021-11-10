@@ -3,13 +3,14 @@
 <html>
     <head>
         <title>Database Records</title>
-        <link href="css/resttable.css" rel="stylesheet" />
+        <!-- <link href="css/resttable.css" rel="stylesheet" /> -->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/client/js/table.js" async></script>
     </head>
 
     <body>
-        <table>
+        <table id="records">
             <th>Restaurant Name</th>
             <th>Address</th>
             <th>City</th>
@@ -18,15 +19,9 @@
             <th>Food Type</th>
             <th>Average Customer Rating</th>
 
-            <tr>
-                <td>This</td>
-                <td>is</td>
-                <td>a</td>
-                <td>test</td>
-                <td>Row</td>
-                <td>for</td>
-                <td>table</td>
-            </tr>
+            <tbody id="tableBody">
+
+            </tbody>
 
         </table>
 

@@ -14,10 +14,11 @@ $('#submit').click(function() {
         type: 'post',
         data: formData,
         success: function(response) {
-            var returnData = JSON.parse(reponse);
+            var returnData = JSON.parse(response);
 
             if(returnData.msg === "Success!") {
                 alert("Success");
+                console.log("Success");
             } else {
                 console.log(response);
             }
@@ -26,4 +27,5 @@ $('#submit').click(function() {
             console.log(response);
         }
     });
+    return false;
 });
