@@ -31,8 +31,42 @@ function writeTable(restaurantArray) {
             tableStr += "<td>" + restaurantArray[i].restPhone + "</td>";
             tableStr += "<td>" + restaurantArray[i].restFoodType + "</td>";
             tableStr += "<td>" + restaurantArray[i].restAvgCustRating + "</td>";
+            tableStr += "<td><button class='deleteRec' dataID='" + restaurantArray[i].id + "'>Delete</button></td>"
         tableStr += "</tr>";
     }
 
     $('#tableBody').html(tableStr);
+
+}
+
+enableDelete();
+
+
+function enableDelete() {
+
+    $('.deleteRec').click(function() {
+        var id = $(this).val();
+
+        $.ajax({
+            url: 'http://localhost:5000/delete-record',
+            type: 'delete',
+            data: id,
+            success: function(response) {
+                var returnData = JSON.parse(response);
+    
+                if(returnData.msg === "Success!") {
+                    console.log(JSON.stringify(returnData.restData));
+                    alert("Success");
+                    console.log("Success");
+                
+                    writeTable(JSON.parse(returnData.restData));  
+                } else {                                           
+                    console.log(response);                       
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
 }
