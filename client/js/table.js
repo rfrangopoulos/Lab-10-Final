@@ -1,14 +1,13 @@
-$.ajax({
+getData();
+
+function getData() {
+    $.ajax({
     url: 'http://localhost:5000/get-record',
     type: 'get',
     success: function(response) {
         var returnData = JSON.parse(response);
 
         if(returnData.msg === "Success!") {
-            console.log(JSON.stringify(returnData.restData));
-            alert("Success");
-            console.log("Success");
-
             writeTable(JSON.parse(returnData.restData)); // Without using JSON.parse, the object being passed had an index for 
         } else {                                         // each character instead of each JSON object resulting in way too many  
             console.log(response);                       // rows in my table as well as a bunch of "Undefined" entries
@@ -18,7 +17,7 @@ $.ajax({
         console.log(response);
     }
 });
-
+}
 
 function writeTable(restaurantArray) {
     var tableStr = "";
@@ -31,35 +30,34 @@ function writeTable(restaurantArray) {
             tableStr += "<td>" + restaurantArray[i].restPhone + "</td>";
             tableStr += "<td>" + restaurantArray[i].restFoodType + "</td>";
             tableStr += "<td>" + restaurantArray[i].restAvgCustRating + "</td>";
-            tableStr += "<td><button class='deleteRec' dataID='" + restaurantArray[i].id + "'>Delete</button></td>"
+            tableStr += "<td><button class='deleteRec' data-ID='" + restaurantArray[i].id + "'>Delete</button></td>"
         tableStr += "</tr>";
     }
 
     $('#tableBody').html(tableStr);
 
+    enableDelete();
 }
 
-enableDelete();
+
 
 
 function enableDelete() {
 
     $('.deleteRec').click(function() {
-        var id = $(this).val();
 
+        var id = this.getAttribute('data-ID');
+        console.log(id);
         $.ajax({
             url: 'http://localhost:5000/delete-record',
             type: 'delete',
-            data: id,
+            data: {id:id},
             success: function(response) {
                 var returnData = JSON.parse(response);
     
                 if(returnData.msg === "Success!") {
-                    console.log(JSON.stringify(returnData.restData));
-                    alert("Success");
-                    console.log("Success");
-                
-                    writeTable(JSON.parse(returnData.restData));  
+                    console.log("Success"); 
+                    getData();  
                 } else {                                           
                     console.log(response);                       
                 }

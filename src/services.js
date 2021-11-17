@@ -56,16 +56,51 @@ var services = function(app) {
 
     app.get('/get-record', function(req, res) {
 
+        
+
         if (fs.existsSync(FILENAME)) {
             fs.readFile(FILENAME, "utf-8", function(err, data) {
                 if (err) {
                     res.send(JSON.stringify({msg: err}));
                 } else {
-                    res.send(JSON.stringify({msg: "Success!", restData: data}))
+                    
+                    res.send(JSON.stringify({msg: "Success!", restData: data}));
+                }
+            });
+        } else {
+            res.send(JSON.stringify({msg: "Success!", restData: "[]"}));
+        }
+    })
+
+    app.delete('/delete-record', function(req, res) {
+
+        var id = req.body.id;
+
+        if (fs.existsSync(FILENAME)) {
+            fs.readFile(FILENAME, "utf-8", function(err, data) {
+                if (err) {
+                    res.send(JSON.stringify({msg: err}));
+                } else {
+                    var dataArray = JSON.parse(data);
+                    console.log(JSON.stringify(dataArray));
+                    for (let i = 0; i < dataArray.length; i++) {
+                        if (dataArray[i].id == id) {
+                            dataArray.splice(i, 1);
+                            break;
+                        }
+                    }
+                    fs.writeFile(FILENAME, JSON.stringify(dataArray), function(err) {
+                        if(err) {
+                            res.send(JSON.stringify({msg: err}));
+                        } else {
+                            res.send(JSON.stringify({msg: "Success!"}));
+                        }
+                    });
                 }
             });
         }
-    })
+    });
+
 };
 
 module.exports = services;

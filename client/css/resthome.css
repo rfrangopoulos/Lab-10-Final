@@ -7,21 +7,47 @@ html {
 
 body {
     background: rgb(255, 200, 175);
-    width: 50%;
-    margin: 0px auto;
+    width: 55%;
+    margin: -25px auto;
     background-size: 100% 100%;
-    height: 100vh;
+    height: 75vh;
     border: 2px solid rgb(160, 80, 40);
     min-height: 50%;
+    box-shadow: black 20px 0px 40px,  black -20px 0px 40px,
+                black 0px 0px 40px;
 }
 
 header {
     background-image: url("/client/resources/header.jpg");
     background-position: 67% 67%;
     padding-bottom: 30px;
+    border-bottom: 2px solid rgb(160, 80, 40);
 }
 
 header > h1, nav li a {
     color: white;
     text-decoration: none;
+}
+
+nav {
+    margin-left: 5px;
+}
+
+nav li {
+    list-style-type: none;
+}
+
+img {
+    height: 300px;
+    width: 75%;
+    margin: 20px auto;
+    display: block;
+    border-radius: 5px;
+    box-shadow: 5px 0px 10px black, 0px 5px 10px black, -5px 0px 10px black;
+}
+
+#main p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
 }
