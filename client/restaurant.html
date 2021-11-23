@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Browse Database</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="/client/js/restaurant.js"></script>
+
+        <link href="/client/css/restbrowse.css" rel="stylesheet" />
+    </head>
+
+    <body data-ng-app="browseDBApp" data-ng-controller="browseDBCtrl">
+
+        <header>
+            <h1>Ryan's Restaurant Database</h1>
+
+            <nav>
+                <li><a href="http://localhost:5000/">Home</a></li>
+                <li><a href="http://localhost:5000/form">Enter into Database</a></li>
+                <li><a href="http://localhost:5000/table">View Database</a></li>
+                <li><a href="http://localhost:5000/browse">Browse Database</a></li>
+            </nav>
+        </header>
+
+        <h2>Browse Database</h2>
+
+        <div id="wrap">
+
+            <div>
+                <label for="restName" id="restNameFor">Restaurant Name: </label>
+                <label id="restName">{{obj.restName}}</label>
+            </div>
+
+            <div>
+                <label for="restAddress" id="restAddressFor">Restaurant Address: </label>
+                <label id="restAddress">{{obj.restAddress}}</label>
+            </div>
+
+            <div>
+                <label for="restCity" id="restCityFor">Restaurant City: </label>
+                <label id="restCity">{{obj.restCity}}</label>
+            </div>
+
+            <div>
+                <label for="restZip" id="restZipFor">Restaurant Zip Code: </label>
+                <label id="restZip">{{obj.restZip}}</label>
+            </div>
+
+            <div>
+                <label for="restPhone" id="restPhoneFor">Restaurant Phone Number: </label>
+                <label id="restPhone">{{obj.restPhone}}</label>
+            </div>
+
+            <div>
+                <label for="restFoodType" id="restFoodTypeFor">Restaurant Food Type: </label>
+                <label id="restFoodType">{{obj.restFoodType}}</label>
+            </div>
+
+            <div>
+                <label for="restAvgCustRating" id="restAvgCustRatingFor">Restaurant Average Customer Rating: </label>
+                <label id="restAvgCustRating">{{obj.restAvgCustRating}}</label>
+            </div>
+
+            <div>
+                <button id="previous" data-ng-click="changeDirection(-1)" data-ng-hide="hidePrev">&lt&lt Previous</button>
+                <button id="next" data-ng-click="changeDirection(1)" data-ng-hide="hideNext">Next &gt&gt</button>
+            </div>
+
+        </div>    
+    </body>
+</html>

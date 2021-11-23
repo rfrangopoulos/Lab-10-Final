@@ -56,8 +56,6 @@ var services = function(app) {
 
     app.get('/get-record', function(req, res) {
 
-        
-
         if (fs.existsSync(FILENAME)) {
             fs.readFile(FILENAME, "utf-8", function(err, data) {
                 if (err) {

@@ -14,6 +14,10 @@ var router = function(app) {
         res.status(200).sendFile(path.join(__dirname + "/../client/table.html"));
     });
 
+    app.get('/browse', function(req, res) {
+        res.status(200).sendFile(path.join(__dirname + "/../client/restaurant.html"));
+    });
+
 };
 
 module.exports = router;
