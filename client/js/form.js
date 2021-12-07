@@ -17,7 +17,6 @@ $('#submit').click(function() {
             var returnData = JSON.parse(response);
 
             if(returnData.msg === "Success!") {
-                alert("Success");
                 console.log("Success");
             } else {
                 console.log(response);

@@ -6,11 +6,10 @@ function getData() {
     type: 'get',
     success: function(response) {
         var returnData = JSON.parse(response);
-
         if(returnData.msg === "Success!") {
-            writeTable(JSON.parse(returnData.restData)); // Without using JSON.parse, the object being passed had an index for 
-        } else {                                         // each character instead of each JSON object resulting in way too many  
-            console.log(response);                       // rows in my table as well as a bunch of "Undefined" entries
+            writeTable(returnData.restData);
+        } else {
+            console.log(response);
         }
     },
     error: function(response) {
@@ -39,22 +38,17 @@ function writeTable(restaurantArray) {
     enableDelete();
 }
 
-
-
-
 function enableDelete() {
 
     $('.deleteRec').click(function() {
 
         var id = this.getAttribute('data-ID');
-        console.log(id);
         $.ajax({
             url: 'http://localhost:5000/delete-record',
             type: 'delete',
             data: {id:id},
             success: function(response) {
                 var returnData = JSON.parse(response);
-    
                 if(returnData.msg === "Success!") {
                     console.log("Success"); 
                     getData();  
