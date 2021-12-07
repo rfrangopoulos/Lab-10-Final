@@ -1,6 +1,16 @@
-const fs = require('fs');
+// const fs = require('fs');
+// const FILENAME = "./src/files/restaurant.txt";
 
-const FILENAME = "./src/files/restaurant.txt";
+// if(err) {
+//     res.send(JSON.stringify({msg: err}));
+// } else {
+//     res.send(JSON.stringify({msg: "Success!"}));
+// }
+
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectId;
+
+const dbURL = "mongodb://localhost";
 
 var services = function(app) {
     app.post('/write-record', function(req, res) {
@@ -22,36 +32,34 @@ var services = function(app) {
 
         var restaurantData = [];
 
-        if (fs.existsSync(FILENAME)) {
-            
-            // Read in current database
-            fs.readFile(FILENAME, "utf-8", function(err, data) {
-                if (err) {
-                    res.send(JSON.stringify({msg: err}));
-                } else {
-                    restaurantData = JSON.parse(data);
-                    
-                    restaurantData.push(restDataJS);
-                    
-                    fs.writeFile(FILENAME, JSON.stringify(restaurantData), function(err) {
-                        if(err) {
-                            res.send(JSON.stringify({msg: err}));
+        MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+            if (err) {
+                res.send(JSON.stringify({msg: err}));
+            } else {
+                var dbo = client.db("restaurant");
+
+                var search = {restName: restDataJS.restName};
+                dbo.collection("restaurants").find(search).toArray(function(err, data) {
+                    if(err) {
+                        res.send(JSON.stringify({msg: err}));
+                    } else {
+                        if (data.length > 0) {
+                            res.send(JSON.stringify({msg: "Restaurant already added"}));
                         } else {
-                            res.send(JSON.stringify({msg: "Success!"}));
+                            var newRestaurant = restDataJS;
                         }
-                    });
-                }
-            });
-        } else {
-            restaurantData.push(restDataJS);
-            fs.writeFile(FILENAME, JSON.stringify(restaurantData), function(err) {
-                if(err) {
-                    res.send(JSON.stringify({msg: err}));
-                } else {
-                    res.send(JSON.stringify({msg: "Success!"}));
-                }
-            });
-        }
+
+                        dbo.collection("restaurants").insertOne(newRestaurant, function(err) {
+                            if(err) {
+                                res.send(JSON.stringify({msg: err}));
+                            } else {
+                                res.send(JSON.stringify({msg: "Success!"}));
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
 
     app.get('/get-record', function(req, res) {
