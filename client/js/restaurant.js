@@ -11,7 +11,7 @@ app.controller("browseDBCtrl", function($scope, $http) {
             url: "http://localhost:5000/get-record",
         }).then(function(response) {
             if(response.data.msg === "Success!") {
-                records = JSON.parse(response.data.restData);
+                records = response.data.restData;
                 $scope.obj = records[activeRecord];
                 $scope.showHide();
             } else {

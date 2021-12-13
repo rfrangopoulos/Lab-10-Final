@@ -41,64 +41,108 @@ var services = function(app) {
     app.get('/get-record', function(req, res) {
 
         MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
-            var dbo = client.db("restaurant");
+            if(err) {
+                return res.status(200).send(JSON.stringify({msg: err}));
+            } else {
+                var dbo = client.db("restaurant");
 
-            dbo.collection("restaurants").find().toArray(function(err, data) {
-                if (err) {
-                    res.send(JSON.stringify({msg: err}));
-                } else {
-                    res.send(JSON.stringify({msg: "Success!", restData: data}));
-                }
-                client.close();
-            });
+                dbo.collection("restaurants").find().toArray(function(err, data) {
+                    if (err) {
+                        res.send(JSON.stringify({msg: err}));
+                    } else {
+                        res.send(JSON.stringify({msg: "Success!", restData: data}));
+                    }
+                    client.close();
+                });
+            }
+        });
+    });
+
+    app.get('/get-recordByType', function(req, res) {
+        var type = req.query.restFoodType;
+        var search = (type === "") ? { } : {restFoodType: type};
+
+        MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+            if(err) {
+                return res.status(200).send(JSON.stringify({msg: err}));
+            } else {
+                var dbo = client.db("restaurant");
+
+                dbo.collection("restaurants").find(search).toArray(function(err, data) {
+                    if (err) {
+                        res.send(JSON.stringify({msg: err}));
+                    } else {
+                        res.send(JSON.stringify({msg: "Success!", restData: data}));
+                    }
+                    client.close();
+                });
+            }
         });
     });
 
     app.delete('/delete-record', function(req, res) {
 
+        var restID = req.query.id;
+        var search = {id: restID};
+
         MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
             if(err) {
-                res.send(JSON.stringify({msg: err}));
+                return res.status(200).send(JSON.stringify({msg: err}));
             } else {
                 var dbo = client.db("restaurant");
-                var search = {id: req.body.id};
 
                 dbo.collection("restaurants").deleteOne(search, function(err) {
                     if (err) {
-                        var search = {id: req.body.id};
+                        return res.status(200).send(JSON.stringify({msg: err}));
                     } else {
                         res.send(JSON.stringify({msg: "Success!"}));
-                        console.log("Record Deleted");
                         client.close();
                     }
                 })
             }
         })
+    });
 
+    app.put('/update-record', function(req, res) {
+        var restID = req.body.id;
+        var restName = req.body.restName;
+        var restAddress = req.body.restAddress;
+        var restCity = req.body.restCity;
+        var restZip = req.body.restZip;
+        var restPhone = req.body.restPhone;
+        var restFoodType = req.body.restFoodType;
+        // var restAvgCustRating = req.body.restAvgCustRating;
 
-        // if (fs.existsSync(FILENAME)) {
-        //     fs.readFile(FILENAME, "utf-8", function(err, data) {
-        //         if (err) {
-        //             res.send(JSON.stringify({msg: err}));
-        //         } else {
-        //             var dataArray = JSON.parse(data);
-        //             console.log(JSON.stringify(dataArray));
-        //             for (let i = 0; i < dataArray.length; i++) {
-        //                 if (dataArray[i].id == id) {
-        //                     dataArray.splice(i, 1);
-        //                     break;
-        //                 }
-        //             }
-        //             fs.writeFile(FILENAME, JSON.stringify(dataArray), function(err) {
-        //                 if(err) {
-        //                     res.send(JSON.stringify({msg: err}));
-        //                 } else {
-        //                     res.send(JSON.stringify({msg: "Success!"}));
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
+        var search = {id: restID};
+        var newData = {
+            $set: {
+                restName: restName,
+                restAddress: restAddress,
+                restCity: restCity,
+                restZip: restZip,
+                restPhone: restPhone,
+                restFoodType: restFoodType,
+                // restAvgCustRating: restAvgCustRating
+            }
+        }
+
+        MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+            if(err) {
+                return res.status(200).send(JSON.stringify({msg: err}));
+            } else {
+                var dbo = client.db("restaurant");
+                dbo.collection("restaurants").updateOne(search, newData, function(err) {
+                    if (err) {
+                        client.close();
+                        return res.status(200).send(JSON.stringify({msg: err}));
+                    } else {
+                        res.send(JSON.stringify({msg: "Success!"}));
+                        console.log("Record Updated");
+                        client.close();
+                    }
+                })
+            }
+        })
     });
 
 };

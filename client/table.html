@@ -4,12 +4,12 @@
     <head>
         <title>Database Records</title>
         <link href="/client/css/resttable.css" rel="stylesheet">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="/client/js/table.js" async></script>
+ 
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="/client/js/table.js"></script>
     </head>
 
-    <body>
+    <body data-ng-app="restTableApp" data-ng-controller="restTableCtrl" data-ng-init="hideForm=true">
     
         <header>
             <h1>Ryan's Restaurant Database</h1>
@@ -22,23 +22,102 @@
             </nav>
 
         </header>
+        <section data-ng-hide="hideTable">
+            <h2>View Database Entries</h2>
 
-        <h2>View Database Entries</h2>
+            <div>
+                <label for="groupBy">Restaurant Food Type: </label>
+                <select id="groupBy"
+                    data-ng-model="selectedType"
+                    data-ng-options="type.display for type in types"
+                    data-ng-change="redrawTable()">
+                </select>
+            </div>
 
-        <table id="records">
-            <th>Restaurant Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Zip Code</th>
-            <th>Phone Number</th>
-            <th>Food Type</th>
-            <th>Average Customer Rating</th>
+            <table id="records">
+                <tr>
+                    <th>Restaurant Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Zip Code</th>
+                    <th>Phone Number</th>
+                    <th>Food Type</th>
+                    <th>Average Customer Rating</th>
+                </tr>   
 
-            <tbody id="tableBody">
+                <tr data-ng-repeat="obj in restaurants">
+                    <td>{{ obj.restName }}</td>
+                    <td>{{ obj.restAddress }}</td>
+                    <td>{{ obj.restCity }}</td>
+                    <td>{{ obj.restZip }}</td>
+                    <td>{{ obj.restPhone }}</td>
+                    <td>{{ obj.restFoodType }}</td>
+                    <td>{{ obj.restAvgCustRating }}</td>
+                    <td>
+                        <button data-ng-click="deleteRecord(obj.id)">Delete</button>
+                    </td>
+                    <td>
+                        <button data-ng-click="editRecord($index)">Edit</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
 
-            </tbody>
+        <section data-ng-hide="hideForm">
+            <h2>Update Record</h2>
+            <label data-ng-model="restID" hidden></label>
 
-        </table>
+            <form id="updateForm">
+                <div class="formRow">
+                    <label for="name">Restaurant Name</label>
+                    <input type="text" id="name" data-ng-model="restName" data-ng-change="startNew()"/>
+                </div>
+
+                <div class="formRow">
+                    <label for="address">Restaurant Address</label>
+                    <input type="text" id="address" data-ng-model="restAddress" data-ng-change="startNew()"/>
+                </div>
+
+                <div class="formRow">
+                    <label for="city">Restaurant City</label>
+                    <input type="text" id="city" data-ng-model="restCity" data-ng-change="startNew()"/>
+                </div>
+
+                <div class="formRow">
+                    <label for="zip">Restaurant Zip</label>
+                    <input type="text" id="zip" data-ng-model="restZip" data-ng-change="startNew()"/>
+                </div>
+
+                <div class="formRow">
+                    <label for="phone">Restaurant Phone</label>
+                    <input type="text" id="phone" data-ng-model="restPhone" data-ng-change="startNew()"/>
+                </div>
+
+                <div class="formRow">
+                    <label for="foodType">Restaurant Food Type</label>
+                    <select id="foodType" data-ng-model="restFoodType" data-ng-change="startNew()">
+                        <option value="Bar Style">Bar Style</option>
+                        <option value="Mexican">Mexican Style</option>
+                        <option value="Hibachi">Hibachi</option>
+                        <option value="Seafood">Seafood</option>
+                        <option value="American Grill">American Grill</option>
+                        <option value="Cajun">Cajun Style</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- <div class="formRow">
+                    <label for="avgRating">Restaurant Average Customer Rating</label>
+                    <input type="number" id="avgRating" data-ng-model="restAvgCustRating" data-ng-change="startNew()" value="2.5" min="0" max="5" step="0.1"/>
+                </div> -->
+
+                <div id="buttons">
+                    <button id="update" data-ng-click="updateRecord()">Update</button>
+                    <button id="cancel" data-ng-click="cancelUpdate()">Cancel</button>
+                </div>
+        </form>
+        </section>
 
     </body>
 </html>
