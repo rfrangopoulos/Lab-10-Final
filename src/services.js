@@ -111,7 +111,7 @@ var services = function(app) {
         var restZip = req.body.restZip;
         var restPhone = req.body.restPhone;
         var restFoodType = req.body.restFoodType;
-        // var restAvgCustRating = req.body.restAvgCustRating;
+        var restAvgCustRating = req.body.restAvgCustRating;
 
         var search = {id: restID};
         var newData = {
@@ -122,7 +122,7 @@ var services = function(app) {
                 restZip: restZip,
                 restPhone: restPhone,
                 restFoodType: restFoodType,
-                // restAvgCustRating: restAvgCustRating
+                restAvgCustRating: restAvgCustRating
             }
         }
 

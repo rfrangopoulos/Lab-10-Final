@@ -55,7 +55,7 @@ app.controller("restTableCtrl", function($scope, $http) {
         $scope.restZip = $scope.restaurants[restNumber].restZip;
         $scope.restPhone = $scope.restaurants[restNumber].restPhone;
         $scope.restFoodType = $scope.restaurants[restNumber].restFoodType;
-        // $scope.restAvgCustRating = $scope.restaurants[restNumber].restAvgCustRating;
+        $scope.restAvgCustRating = parseFloat($scope.restaurants[restNumber].restAvgCustRating);
         $scope.restID = $scope.restaurants[restNumber].id;
 
         $scope.hideTable = true;
@@ -84,7 +84,7 @@ app.controller("restTableCtrl", function($scope, $http) {
                 "restZip": $scope.restZip,
                 "restPhone": $scope.restPhone,
                 "restFoodType": $scope.restFoodType,
-                // "restAvgCustRating": $scope.restAvgCustRating
+                "restAvgCustRating": $scope.restAvgCustRating
             }
         }).then(function(response) {
             if(response.data.msg === "Success!") {
@@ -98,7 +98,7 @@ app.controller("restTableCtrl", function($scope, $http) {
                 $scope.restZip = "";
                 $scope.restPhone = "";
                 $scope.restFoodType = "";
-                // $scope.restAvgCustRating = "";
+                $scope.restAvgCustRating = "";
             } else {
                 console.log(response);
             }
